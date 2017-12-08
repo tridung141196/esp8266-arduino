@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 
+<meta charset="UTF-8">
+ 
+<title>DHT11</title>
+ 
+<!-- Nhúng file Javasript tại đường dẫn src để có thể xây dựng 1 graph -->
+ 
+</head>
+<body>
+ 
+<h1> 1. THONG SO NHIET DO, DO AM</h><br> 
+
+
+ 
+<h2> Temprature</h2> <input type="text" size="6" id="temp">&#176;C<br>
+ 
+<h2> Humidity</h2> <input type="text" size="6" id="humd">%<br>
+
+<div> Mode <select id="mode">
+  <option value="00">Auto</option>
+  <option value="10">Motor On</option>
+  <option value="11">Motor Off</option>
+</select></div>
+<button onClick="onClick()">OK</button> 
+
+<div> Update in: <span id="demo" style="color:blue"></span></div>
+ 
+<script type="text/javascript">
+
+
+function httpGetAsync(theUrl, callback) {
+ 
+	var xmlHttp = new XMLHttpRequest();
+ 
+	xmlHttp.onreadystatechange = function() {
+ 
+		if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+ 
+			callback(JSON.parse(xmlHttp.responseText));
+ 		}
+ 
+	xmlHttp.open("GET", theUrl, true); // true for asynchronous
+ 
+	xmlHttp.send(null);
+ 
+	}
+
+
+function onClick(){
+	var data;
+	var url;
+	data = document.getElementById("mode").value;
+	url='/set?mode='+data;
+	console.log(url);
+	httpGetAsync(url, function(data) {
+
+		});
+ 
+}
+  
+ 
+ 
+window.onload = function() {
+
+	var updateInterval = 2000; // Thời gian cập nhật dữ liệu 2000ms = 2s
+	var updateData = function() {
+	httpGetAsync('/get', function(data) {
+
+		// Gán giá trị từ localhost:8000/get vào textbox để hiển thị
+		document.getElementById("temp").value = data[0].temp;
+		document.getElementById("humd").value = data[0].humd;
+		document.getElementById("demo").innerHTML = Date();
+		// Xuất ra màn hình console trên browser giá trị nhận được từ localhost:8000/get
+		//console.log(data);
+		// Cập nhật thời gian và lấy giá trị nhiệt độ, độ ẩm từ server
+		});
+	}; 
+	updateData(); // Chạy lần đầu tiên
+ 
+	setInterval(function() {updateData()}, updateInterval);
+}
+ 
+</script>
+</body>
+</html>

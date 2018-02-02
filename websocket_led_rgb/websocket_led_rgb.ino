@@ -3,9 +3,9 @@
 #include <Adafruit_NeoPixel.h>
 #define DATA_PIN 15    //data in pin
 #define TOTAL_LED 12
-//const char *ssid = "dungvo";
-const char* ssid = "Wifi";
-const char* password = "quenpassroi";
+const char *ssid = "dungvo";
+//const char* ssid = "Wifi";
+//const char* password = "quenpassroi";
 const int LED = 16;
 const int BTN = 0;
 unsigned int setColor;
@@ -174,19 +174,19 @@ void setup()
   strip.show();
   Serial.begin(115200);
   Serial.setDebugOutput(true);
-  WiFi.mode(WIFI_AP_STA);
-  WiFi.begin(ssid, password);
-  if (WiFi.waitForConnectResult() != WL_CONNECTED) {
-  Serial.printf("STA: Failed!\n");
-  WiFi.disconnect(false);
-  delay(1000);
-  WiFi.begin(ssid, password);
-  }
-//  WiFi.softAP(ssid);
-//
-//  IPAddress myIP = WiFi.softAPIP();
-//  Serial.print("AP IP address: ");
-//  Serial.println(myIP);
+//  WiFi.mode(WIFI_AP_STA);
+//  WiFi.begin(ssid, password);
+//  if (WiFi.waitForConnectResult() != WL_CONNECTED) {
+//  Serial.printf("STA: Failed!\n");
+//  WiFi.disconnect(false);
+//  delay(1000);
+//  WiFi.begin(ssid, password);
+//  }
+  WiFi.softAP(ssid);
+
+  IPAddress myIP = WiFi.softAPIP();
+  Serial.print("AP IP address: ");
+  Serial.println(myIP);
   ws.onEvent(onWsEvent); // gọi hàm onWsEvent
   server.addHandler(&ws);
   server.on("/", HTTP_GET, [](AsyncWebServerRequest * request) {

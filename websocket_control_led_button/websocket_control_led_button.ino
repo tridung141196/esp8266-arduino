@@ -1,7 +1,8 @@
 #include <ESP8266WiFi.h>
 #include <ESPAsyncWebServer.h>
-const char* ssid = "Wifi";
-const char* password = "quenpassroi";
+const char* ssid = "dungvt";
+const char* password = "123456789";
+//const char *ssid = "dungvt";
 const int LED = 16;
 const int BTN = 0;
 // để đưa đoạn code HTML vào chương trình Arduino, cần chuyển đổi code HTML sang dạng char
@@ -78,6 +79,10 @@ void setup()
   delay(1000);
   WiFi.begin(ssid, password);
   }
+//  WiFi.softAP(ssid);
+//  IPAddress myIP = WiFi.softAPIP();
+//  Serial.print("AP IP address: ");
+//  Serial.println(myIP);
   ws.onEvent(onWsEvent); // gọi hàm onWsEvent
   server.addHandler(&ws);
   server.on("/", HTTP_GET, [](AsyncWebServerRequest * request) {
